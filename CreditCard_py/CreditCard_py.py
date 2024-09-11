@@ -94,7 +94,11 @@ def index() -> rx.Component:
             border_radius="5px",
         ),
         
-        # Credit Card Number
+        # Credit Card Information
+        rx.box ( style = {
+            "background-color": "red",
+        },
+            
         rx.box(
             rx.text("Python SA.", font_size="24px", ),
         ),
@@ -116,7 +120,19 @@ def index() -> rx.Component:
             rx.text(State.credit_card_entidad, font_size="24px", font_weight="bold", id="credit_card_entidad"),
         )
 
+        )
     )
+
+
+
+    style = {
+        "Container-Information": {
+            "background-color": "red",
+            "color": "#fff",
+            "padding": "20px",
+            "border_radius": "10px",
+        }
+    }
     
 
 app = rx.App()
