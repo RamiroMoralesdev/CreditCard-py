@@ -12,12 +12,16 @@ class State(rx.State):
     credit_card_date: str = ''
     credit_card_cvv: str = ''
     credit_card_entidad: str = ''
+    credit_card_entidad_image: rx.Component = None
+
     if credit_card_number == '':
         credit_card_number = '000 000 000 000'
         credit_card_name = 'John Doe'
+        credit_card_created = '00/00'
         credit_card_date = '00/00'
         credit_card_cvv = '000'
         credit_card_entidad = 'MasterCard'
+        credit_card_entidad_image = 'mastercard.png'
     else:
         credit_card_number = credit_card_number 
         credit_card_name = credit_card_name
@@ -25,11 +29,18 @@ class State(rx.State):
         credit_card_cvv = credit_card_cvv
         credit_card_entidad = credit_card_entidad
 
+    if credit_card_entidad == 'MasterCard':
+        credit_card_entidad = credit_card_entidad
+
+    
     def update_credit_card_number(self, number: str):
         self.credit_card_number = number
 
     def update_credit_card_name(self, name: str):
         self.credit_card_name = str(name)
+
+    def update_credit_card_created(self, created: str):
+        self.credit_card_created = created
 
     def update_credit_card_date(self, date: str):
         self.credit_card_date = date
@@ -39,6 +50,14 @@ class State(rx.State):
 
     def update_credit_card_entidad(self, entidad: str):
         self.credit_card_entidad = entidad
+        if entidad == 'MasterCard':
+            self.credit_card_entidad_image = "mastercard.png"
+        elif entidad == 'Visa':
+            self.credit_card_entidad_image = "visa.png"
+        elif entidad == 'American Express':
+            self.credit_card_entidad_image = "american_express.png"
+        else:
+            self.credit_card_entidad_image = None
 
 
 def index() -> rx.Component:
@@ -61,6 +80,14 @@ def index() -> rx.Component:
             border="1px solid #000",
             border_radius="5px",
             on_change=State.update_credit_card_name,
+        ),
+        rx.input(
+            placeholder="Enter Credit Card Created",
+            width="100%",
+            height="50px",
+            border="1px solid #000",
+            border_radius="5px",
+            on_change=State.update_credit_card_created,
         ),
 
         rx.input(
@@ -95,44 +122,62 @@ def index() -> rx.Component:
         ),
         
         # Credit Card Information
-        rx.box ( style = {
-            "background-color": "red",
-        },
+        rx.box(
+            rx.box(
+                rx.text("Python SA.", font_size="24px", color="black"),
+            ),
+            rx.box(
+                rx.text(State.credit_card_number, font_size="40px", font_weight="bold", id="credit_card_number", color="white"),
+
+                margin_top="50px",
+                margin_bottom="0",
+            ),
+            rx.box(
+                rx.text( "Created: " + State.credit_card_created, font_size="24px", font_weight="bold", id="credit_card_created", color="white"),
+                rx.text( "Expired: " + State.credit_card_date, font_size="24px", font_weight="bold", id="credit_card_date", color="white"),
+
+                margin_top="15%",
+                display="flex",
+                flex_direction="row",
+                gap="20px",
+            ),
+
+            rx.box(
+                rx.text(State.credit_card_name, font_size="24px", font_weight="bold", id="credit_card_name", color="white"),
+            ),
             
-        rx.box(
-            rx.text("Python SA.", font_size="24px", ),
+            rx.box(
+                rx.text(State.credit_card_cvv, font_size="24px", font_weight="bold", id="credit_card_cvv", color="white"),
+                rx.text(State.credit_card_entidad, font_size="24px", font_weight="bold", id="credit_card_entidad", color="white"),
+                rx.image(src=State.credit_card_entidad_image, width="100px", height="100px", margin_left="120px" ),
+
+                display="flex",
+                flex_direction="row",
+                gap="20px",
+            ),
+            
+
+            width="500px",
+            height="350px",
+            bg="linear-gradient(45deg, #ffb465, #af7c4b)",
+            margin="0 auto",
+            border_radius="15px",
+            padding="20px",
+            display="flex",
+            flex_direction="column",
         ),
-        rx.box(
-            rx.text(State.credit_card_number, font_size="24px", font_weight="bold", id="credit_card_number"),
 
-            rx.text(State.credit_card_name, font_size="24px", font_weight="bold", id="credit_card_name"),
-        ),
 
-        rx.box(
-            rx.text(State.credit_card_date, font_size="24px", font_weight="bold", id="credit_card_date"),
-        ),
 
-        rx.box(
-            rx.text(State.credit_card_cvv, font_size="24px", font_weight="bold", id="credit_card_cvv"),
-        ),
-
-        rx.box(
-            rx.text(State.credit_card_entidad, font_size="24px", font_weight="bold", id="credit_card_entidad"),
-        )
-
-        )
+        # Styles of element father
+        width="100%",
+        height="100%",
+        padding="20px",
+        display="flex",
+        flex_direction="column",
+        align_items="center",
+        justify_content="center",
     )
-
-
-
-    style = {
-        "Container-Information": {
-            "background-color": "red",
-            "color": "#fff",
-            "padding": "20px",
-            "border_radius": "10px",
-        }
-    }
     
 
 app = rx.App()
