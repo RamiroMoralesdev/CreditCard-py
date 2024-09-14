@@ -64,16 +64,16 @@ def index() -> rx.Component:
     # Welcome Page (Index)
     return rx.container(
         # Input Credit Card Number
-        rx.input(
-            placeholder="Enter Credit Card Number",
-            width="100%",
-            height="50px",
-            border="1px solid #000",
-            border_radius="5px",
-            on_change=State.update_credit_card_number,
-        ),
-
-        rx.input(
+        rx.box(
+            rx.input(
+                placeholder="Enter Credit Card Number",
+                width="100%",
+                height="50px",
+                border="1px solid #000",
+                border_radius="5px",
+                on_change=State.update_credit_card_number,
+            ),
+             rx.input(
             placeholder="Enter Credit Card Name",
             width="100%",
             height="50px",
@@ -119,7 +119,8 @@ def index() -> rx.Component:
             width="100%",
             border="1px solid #000",
             border_radius="5px",
-        ),
+        )
+        ), 
         
         # Credit Card Information
         rx.box(
@@ -167,18 +168,31 @@ def index() -> rx.Component:
             flex_direction="column",
         ),
 
-
-
         # Styles of element father
         width="100%",
         height="100%",
         padding="20px",
         display="flex",
-        flex_direction="column",
+        flex_direction="row",
         align_items="center",
         justify_content="center",
+    ),
+
+
+def footer_items_1() -> rx.Component:
+    return rx.flex(
+        rx.heading(
+            "PRODUCTS", size="4", weight="bold", as_="h3"
+        ),
+        footer_item("Web Design", "/#"),
+        footer_item("Web Development", "/#"),
+        footer_item("E-commerce", "/#"),
+        footer_item("Content Management", "/#"),
+        footer_item("Mobile Apps", "/#"),
+        spacing="4",
+        text_align=["center", "center", "start"],
+        flex_direction="column",
     )
-    
 
 app = rx.App()
 app.add_page(index)
